@@ -1,62 +1,53 @@
-# Hygieia: Privacy-First Federated Learning for Healthcare
+# Federated Healthcare Intelligence
 
-Hygieia is a cutting-edge federated learning system designed for hospitals, enabling collaborative AI model training while preserving patient privacy and data sovereignty.
-
-## Tech Stack
-
-- **Backend**: FastAPI + Python
-- **Frontend**: React + TypeScript + TailwindCSS
-- **Machine Learning**: PyTorch (coming in future phases)
-- **Containerization**: Docker
-- **Development Tools**: 
-  - Node.js v18+
-  - Python 3.9+
-  - Docker Desktop
+## Overview
+The current project snapshot provides a lightweight scaffold for the upcoming Federated Healthcare Intelligence platform. It ships with a Docker-based development environment, a minimal FastAPI backend prepared for a MySQL connection, and a React landing page that announces the product launch.
 
 ## Project Structure
-
 ```
 hygieia/
-├── server/        # FastAPI backend
-├── client/        # Hospital client scripts
-├── frontend/      # React dashboard
-├── data/          # Synthetic datasets
-├── docker/        # Docker & compose files
+├── data/          # Local datasets and seed files for development
+├── docker/        # Docker Compose definition
+├── frontend/      # React "Coming Soon" landing page
+├── server/        # FastAPI service with MySQL-ready scaffolding
 └── README.md
 ```
 
-## Phase 0: Getting Started
+## Prerequisites
+- **Docker Desktop**: Includes Docker Compose V2 support.
+- **MySQL instance**: Running on your host machine (or reachable network location).
 
-### Prerequisites
+## Environment Configuration
+Create a `.env` file inside `server/` to supply the FastAPI service with database credentials.
 
-1. Docker Desktop installed and running
-2. Node.js v18 or higher
-3. Python 3.9 or higher
-
-### Running the Project
-
-1. Clone the repository:
-```bash
-git clone [your-repo-url]
-cd hygieia
+```
+MYSQL_HOST=host.docker.internal
+MYSQL_PORT=3306
+MYSQL_USER=<your-user>
+MYSQL_PASSWORD=<your-password>
+MYSQL_DATABASE=fhi
 ```
 
-2. Start the services:
-```bash
-cd docker
-docker-compose up
-```
+- **MYSQL_HOST**: Use `host.docker.internal` to reach a database running on the host (adjust if you host MySQL elsewhere).
+- **MYSQL_PORT**: Defaults to `3306`, change if your instance runs on an alternate port.
+- **MYSQL_DATABASE**: The database that the service will connect to; create it ahead of time if needed.
 
-3. Verify the setup:
-- Backend API: http://localhost:8000/ping
-- Frontend Dashboard: http://localhost:5173
+## Running the Stack
+1. **Open PowerShell** and switch to the project directory:
+   ```powershell
+   Set-Location "d:\.vscode\Federated-HealthCare-Intelligence\hygieia\docker"
+   ```
+2. **Launch the containers** (first run will build the images):
+   ```powershell
+   docker compose up --build
+   ```
+3. **Verify the services**:
+   - **API health check**: `http://localhost:8000/health`
+   - **Landing page**: `http://localhost:5173` – displays “Federated Healthcare Intelligence — Coming Soon”.
 
-### Test Data
+Press `Ctrl+C` in the terminal to stop the stack when finished.
 
-The `/data` directory contains synthetic hospital datasets:
-- `hospital_A.csv`: High ICU load scenario
-- `hospital_B.csv`: Lower ICU load with staff shortage scenario
-
-## License
-
-MIT License
+## Next Steps
+- **Database migrations**: Introduce tooling such as Alembic once the schema is defined.
+- **API expansion**: Implement domain endpoints as feature work begins.
+- **UI development**: Extend the React app beyond the placeholder content.

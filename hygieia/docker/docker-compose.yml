@@ -1,6 +1,16 @@
 version: '3.8'
 
 services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: newpassword
+      MYSQL_DATABASE: federatedhealthcareintelligence
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
   server:
     build:
       context: ../server
@@ -10,8 +20,15 @@ services:
     volumes:
       - ../server:/app
       - ../data:/data
+      - uploads:/app/uploads
+      - models:/app/models
     environment:
       - PYTHONUNBUFFERED=1
+      - MYSQL_HOST=db
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=newpassword
+      - MYSQL_DATABASE=federatedhealthcareintelligence
     command: sh -c "python /data/generate_data.py || true; uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
 
   frontend:
@@ -25,3 +42,8 @@ services:
       - /app/node_modules
     depends_on:
       - server
+
+volumes:
+  mysql_data:
+  uploads:
+  models:
